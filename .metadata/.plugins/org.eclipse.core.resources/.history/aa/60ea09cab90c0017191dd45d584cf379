@@ -1,0 +1,50 @@
+
+public class TestMain_v3 {
+	public static void printMatrix(Matrix blk) {
+		int dy = blk.get_dy();
+		int dx = blk.get_dx();
+		int array[][] = blk.get_array();
+		for (int y = 0; y < dy; y++) {
+			for(int x = 0; x < dx; x++) {
+				if(array[y][x] == 0) System.out.print("︎◻︎ ");
+				else if(array[y][x] == 1) System.out.print("◼︎︎ ");
+				else System.out.print("x ");
+			}
+			System.out.println();
+		}
+	}
+	public static void main(String[] args) throws Exception{
+		int [][] arrayScreen = {
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+		};
+		int [][] arrayBlk = {
+				{ 0, 1, 0 },
+				{ 1, 1, 1 },
+				{ 0, 0, 0 },
+		};
+		int top = 0, left = 4;
+		Matrix iScreen = new Matrix(arrayScreen);
+		Matrix currBlk = new Matrix(arrayBlk);
+		Matrix tempBlk = iScreen.clip(top, left, top + currBlk.get_dy(), left + currBlk.get_dx());
+		tempBlk = tempBlk.add(currBlk);
+		Matrix oScreen = new Matrix(iScreen);
+		oScreen.paste(tempBlk, top, left);
+		printMatrix(oScreen); System.out.println();
+	}
+
+}
