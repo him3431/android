@@ -66,16 +66,18 @@
 //}
 
 //public class TestMain_v2 {
-//	public static void main(String[] args) throws Exception {
+//	public static void main(String[] args) throws Exception {		// 76번 줄이 exception을 일으키면 메인함수가 호출한 상위 예외처리로 던지게 된다. 
+//		//만들어놓은 예외처리 함수에서 사용하고 싶다면 try문 안으로 76번줄을 넣어야 한다. 
 //		int[][] blkArray = {
 //				{ 0, 1, 0 },
 //				{ 1, 1, 1 },
 //				{ 0, 0, 0 }	
 //		};
-//		Matrix currBlk = new Matrix(blkArray);
+//		Matrix currBlk = new Matrix(blkArray);	// 행렬의 크기가 3x3인 2차원 배열 (세로 x 가로)
 //		try {
-//			Matrix tempBlk = new Matrix(5, 5);
-//			tempBlk = tempBlk.add(currBlk);
+//			Matrix tempBlk = new Matrix(5, 5); 	// 임시블럭을 만들어서 5x5의 크기로 만든다.
+//			tempBlk = tempBlk.add(currBlk);		// 두 개의 블럭을 덧셈한다. add 메소드를 이용 (원소대 원소 덧셈) -> 하지만 다 덧셈할 수 없다.
+//			// 에러 발생예상  mismatchedMatrixException 이 잡힌다.
 //		} catch(MismatchedMatrixException e) {
 //			e.printStackTrace();
 //			System.out.println(e.getMessage());
@@ -91,9 +93,10 @@
 public class TestMain_v2 {
 	public static void main(String[] args) throws Exception {
 		Matrix m = new Matrix(10, 10);
-		for(int i = 0; i < 999; i++)
-			m = new Matrix(10, 10);
-		System.gc(); // System의 garbage collection을 강제 유도함
+		for(int i = 0; i < 999; i++)		// 1000개의 객체를 할
+			m = new Matrix(10, 10);			// 계속 새로운 객체를 가리키게 된다. 가장 최근에 할당된 객체만 가리킨다. 자바는 delete라는 키워드가 없다. 시스템이 알아서 해제해준다.
+		System.gc(); // System의 garbage collection을 강제 유도함  garbage를 수집해서 메모리에 반납해준다. System.gc()함수는 garbage collection을 수행하라는 명령
+		// garbage collection은 별도의 thread가 있다. 그 스레드가 충분한 실행시간이 확보되어야 999개의 garbage를 할당한다. main 부분의 thread 처리 때문에 garbage thread가 모두 모으지 못할 수 있다.
 		System.out.println("nAlloc=" + m.get_nAlloc());
 		System.out.println("nFree=" + m.get_nFree());
 	}

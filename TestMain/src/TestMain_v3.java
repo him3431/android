@@ -1,6 +1,6 @@
 //
 //public class TestMain_v3 {
-//	public static void printMatrix(Matrix blk) {
+//	public static void printMatrix(Matrix blk) {	// static 메소드는 static으로 선언된 메소드만 불러 올 수 있다.
 //		int dy = blk.get_dy();
 //		int dx = blk.get_dx();
 //		int array[][] = blk.get_array();
@@ -13,8 +13,8 @@
 //			System.out.println();
 //		}
 //	}
-//	public static void main(String[] args) throws Exception{
-//		int [][] arrayScreen = {
+//	public static void main(String[] args) throws Exception{	// try & catch를 맨날 호출하기 귀찮으니까 모두 throws로 던질 것이다. 애매한곳만 만들어 두
+//		int [][] arrayScreen = {		// 배경화면으로 사용할 부
 //				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 //				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 //				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -39,9 +39,13 @@
 //		};
 //		int top = 0, left = 4;
 //		Matrix iScreen = new Matrix(arrayScreen);
+//		printMatrix(iScreen); System.out.println();
 //		Matrix currBlk = new Matrix(arrayBlk);
+//		printMatrix(currBlk); System.out.println();
 //		Matrix tempBlk = iScreen.clip(top, left, top + currBlk.get_dy(), left + currBlk.get_dx());
+//		printMatrix(tempBlk); System.out.println();
 //		tempBlk = tempBlk.add(currBlk);
+//		printMatrix(tempBlk); System.out.println();
 //		Matrix oScreen = new Matrix(iScreen);
 //		oScreen.paste(tempBlk, top, left);
 //		printMatrix(oScreen); System.out.println();
@@ -52,44 +56,246 @@
 import java.io.BufferedReader;
 import java.io.IOException;		// getKey() 메소드에서 요구하는 패키지
 import java.io.InputStreamReader;
+import java.util.Random;
 
 public class TestMain_v3 {
-//	static int [][] arrayScreen = {	// array[15+3][10+6]
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
-//			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-//			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-//			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-//	};
+/*	static int [][] arrayScreen = {	// array[15+3][10+6]
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+	};
 	static int [][] arrayBlk = {
 			{ 0, 1, 0 },
 			{ 1, 1, 1 },
 			{ 0, 0, 0 },
+	};*/
+	
+	
+	private static int nBlockTypes = 7;
+	private static int nBlockDegrees = 4;
+	private static Matrix[][] setOfBlockObjects;
+	private static int [][][][] setOfBlockArrays = {
+	
+		{
+			{
+				{ 1,1,1,1 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			}, //수평블럭 0도 회전
+			{
+				{ 1,0,0,0 },
+				{ 1,0,0,0 },
+				{ 1,0,0,0 },
+				{ 1,0,0,0 }
+			}, //수평블럭 90도 회전
+			{
+				{ 1,1,1,1 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			}, //수평블럭 180도 회전
+			{
+				{ 1,0,0,0 },
+				{ 1,0,0,0 },
+				{ 1,0,0,0 },
+				{ 1,0,0,0 }
+			} //수평블럭 270도 회전
+		},
+		{
+			{
+				{0,1,0,0},
+				{1,1,1,0},
+				{0,0,0,0},
+				{0,0,0,0}
+			},
+			{
+				{0,1,0,0},
+				{1,1,0,0},
+				{0,1,0,0},
+				{0,0,0,0}
+			},
+			{
+				{1,1,1,0},
+				{0,1,0,0},
+				{0,0,0,0},
+				{0,0,0,0}
+			},
+			{
+				{1,0,0,0},
+				{1,1,0,0},
+				{1,0,0,0},
+				{0,0,0,0}
+			}
+		},
+		{
+			{
+				{ 1,1,0,0 },
+				{ 1,1,0,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			}, 
+			{
+				{ 1,1,0,0 },
+				{ 1,1,0,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			}, 
+			{
+				{ 1,1,0,0 },
+				{ 1,1,0,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			}, 
+			{
+				{ 1,1,0,0 },
+				{ 1,1,0,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			} 
+		},
+		{
+			{
+				{ 0,1,0,0 },
+				{ 0,1,0,0 },
+				{ 1,1,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 1,0,0,0 },
+				{ 1,1,1,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 1,1,0,0 },
+				{ 1,0,0,0 },
+				{ 1,0,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 1,1,1,0 },
+				{ 0,0,1,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			}
+		},
+		{
+			{
+				{ 1,0,0,0 },
+				{ 1,0,0,0 },
+				{ 1,1,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 1,1,1,0 },
+				{ 1,0,0,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 1,1,0,0 },
+				{ 0,1,0,0 },
+				{ 0,1,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 0,0,1,0 },
+				{ 1,1,1,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			}
+		},
+		{
+			{
+				{ 1,1,0,0 },
+				{ 0,1,1,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 0,1,0,0 },
+				{ 1,1,0,0 },
+				{ 1,0,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 1,1,0,0 },
+				{ 0,1,1,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 0,1,0,0 },
+				{ 1,1,0,0 },
+				{ 1,0,0,0 },
+				{ 0,0,0,0 }
+			}
+		},
+		{
+			{
+				{ 0,1,1,0 },
+				{ 1,1,0,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 1,0,0,0 },
+				{ 1,1,0,0 },
+				{ 0,1,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 0,1,1,0 },
+				{ 1,1,0,0 },
+				{ 0,0,0,0 },
+				{ 0,0,0,0 }
+			},
+			{
+				{ 1,0,0,0 },
+				{ 1,1,0,0 },
+				{ 0,1,0,0 },
+				{ 0,0,0,0 }
+			}
+		}
+	};
+	private static Matrix[][] createSetOfBlocks(int[][][][] setOfArrays) throws Exception {
+		//	블록의 종류에 따른 블록 선택 
+		//	회전한 숫자에 따른 2차원 블록 리턴
+		Matrix[][] buffer = new Matrix[setOfArrays.length][setOfArrays[0].length];
+		for(int i = 0; i < setOfArrays.length; i++){
+			for(int j = 0; j < setOfArrays[0].length; j++){
+				buffer[i][j] = new Matrix(setOfArrays[i][j]);				
+			}
+		}	
+		return buffer;
 	};
 	private static int iScreenDy = 15;
 	private static int iScreenDx = 10;
 	private static int iScreenDw = 4; // large enough to cover the largest block
 	private static int[][] createArrayScreen(int dy, int dx, int dw) {
 		int y, x;
-		int[][] array = new int[dy + dx][dx + 2*dw];
+		int[][] array = new int[dy + dw][dx + 2*dw];
 		for(y = 0; y < array.length; y++)
 			for(x = 0; x < dw; x++)
 				array[y][x] = 1;
 		for (y = 0; y < array.length; y++)
-			for(x = 0; x < array[0].length; x++)
+			for(x = dw + dx; x < array[0].length; x++)
 				array[y][x] = 1;
 		for(y = dy; y < array.length; y++)
 			for(x = 0; x < array[0].length; x++)
@@ -110,19 +316,20 @@ public class TestMain_v3 {
 			System.out.println();
 		}
 	}
-//	public static void printMatrix(Matrix blk) {
-//		int dy = blk.get_dy();
-//		int dx = blk.get_dx();
-//		int array[][] = blk.get_array();
-//		for (int y = 0; y < dy; y++) {
-//			for(int x = 0; x < dx; x++) {
-//				if(array[y][x] == 0) System.out.print("︎◻︎ ");
-//				else if(array[y][x] == 1) System.out.print("◼︎︎ ");
-//				else System.out.print("x ");
-//			}
-//			System.out.println();
-//		}
-//	}
+	public static void printMatrix(Matrix blk) {
+		int dy = blk.get_dy();
+		int dx = blk.get_dx();
+		int array[][] = blk.get_array();
+		for (int y = 0; y < dy; y++) {
+			for(int x = 0; x < dx; x++) {
+				if(array[y][x] == 0) System.out.print("︎◻︎ ");
+				else if(array[y][x] == 1) System.out.print("◼︎︎ ");
+				else System.out.print("x ");
+			}
+			System.out.println();
+		}
+	}
+	
 	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private static String line = null;
 	private static int nKeys = 0;
@@ -144,19 +351,27 @@ public class TestMain_v3 {
 
 
 	public static void main(String[] args) throws Exception {
+		boolean newBlockNeeded = false;
 		int top = 0; //left = 4;
 		int left = iScreenDw + iScreenDx/2 - 2;
 		int[][] arrayScreen = createArrayScreen(iScreenDy, iScreenDx, iScreenDw);
 		char key;
 		Matrix iScreen = new Matrix(arrayScreen);
-		Matrix currBlk = new Matrix(arrayBlk);
+		nBlockTypes = setOfBlockArrays.length;
+		nBlockDegrees = setOfBlockArrays[0].length;
+		setOfBlockObjects = createSetOfBlocks(setOfBlockArrays);
+		Random random = new Random();
+		int idxBlockType = random.nextInt(nBlockTypes);
+		int idxBlockDegree = 0;
+		Matrix currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
+//		Matrix currBlk = new Matrix(arrayBlk);
 		Matrix tempBlk = iScreen.clip(top, left, top + currBlk.get_dy(), left + currBlk.get_dx());
 		tempBlk = tempBlk.add(currBlk);
 		Matrix oScreen = new Matrix(iScreen);
 		oScreen.paste(tempBlk, top, left);
 		printScreen(oScreen); System.out.println();
 		
-		boolean newBlockNeeded = false;
+//		boolean newBlockNeeded = false;
 		while((key = getKey()) != 'q') {
 			switch(key) {
 			case 'a': left--; break; //	move left
@@ -186,7 +401,11 @@ public class TestMain_v3 {
 				iScreen = new Matrix(oScreen);
 				top = 0; left = iScreenDw + iScreenDx/2 - 2;
 				newBlockNeeded = false;
-				currBlk = new Matrix(arrayBlk);
+//				currBlk = new Matrix(arrayBlk);
+				random = new Random();
+				idxBlockType = random.nextInt(nBlockTypes);
+				idxBlockDegree = 0;
+				currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 				tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 				tempBlk = tempBlk.add(currBlk);
 				if(tempBlk.anyGreaterThan(1)) {

@@ -1,40 +1,50 @@
 
 public class Matrix {
+	private static int nAlloc = 0;
+	private static int nFree = 0;
+	protected void finalize() throws Throwable {
+		super.finalize();
+		nFree++; // count the number of freed objects
+	}
+	public int get_nAlloc() { return nAlloc; }
+	public int get_nFree() { return nFree; }
 	private int dy = 0;
     public int get_dy() {return dy;}
     private int dx = 0;
     public int get_dx() {return dx;}
     private int[][] array = null;
     public int[][] get_array() {return array;}
-    private void alloc(int cy, int cx) {
+    private void alloc(int cy, int cx) throws MatrixException{
         if((cy < 0) || (cx < 0)) {
-            System.out.println("wrong matrix size");
-            System.exit(0);
+        	throw new MatrixException("wronw matrix size");
+//            System.out.println("wrong matrix size");
+//            System.exit(0);
         }
         dy = cy;
         dx = cx;
         array = new int[dy][dx];
+        nAlloc++; // count the number of allocated objects
     }
-    public Matrix() { alloc(0, 0);}
-    public Matrix(int cy, int cx) {
+    public Matrix() throws MatrixException{ alloc(0, 0);}
+    public Matrix(int cy, int cx) throws MatrixException{
         alloc(cy, cx);
         for(int y = 0; y < dy; y++)
             for(int x = 0; x < dx; x++)
                 array[y][x] = 0;
     }
-    public Matrix(Matrix obj) {
+    public Matrix(Matrix obj) throws MatrixException{
         alloc(obj.dy, obj.dx);
         for(int y = 0; y < dy; y++)
             for(int x = 0; x < dx; x++)
                 array[y][x] = obj.array[y][x];
     }
-    public Matrix(int[][] arr) {
+    public Matrix(int[][] arr) throws MatrixException{
         alloc(arr.length, arr[0].length);
         for(int y = 0; y < dy; y++)
             for(int x = 0; x < dx; x++)
                 array[y][x] = arr[y][x];
     }
-    public Matrix clip(int top, int left, int bottom, int right) {
+    public Matrix clip(int top, int left, int bottom, int right) throws MatrixException{
         int cy = bottom - top;
         int cx = right - left;
         Matrix temp = new Matrix(cy, cx);
@@ -43,25 +53,28 @@ public class Matrix {
                 if((top+y >= 0) && (left+x >= 0) && (top+y < dy) && (left+x < dx))
                     temp.array[y][x] = array[top+y][left+x];
                 else{
-                    System.out.println("invalid matrix range");
-                    System.exit(0);
+                	throw new MatrixException("invalid matrix range");
+//                    System.out.println("invalid matrix range");
+//                    System.exit(0);
                 }
         return temp;
     }
-    public void paste(Matrix obj, int top, int left) {
+    public void paste(Matrix obj, int top, int left) throws MatrixException{
         for(int y = 0; y < obj.dy; y++)
             for(int x = 0; x < obj.dx; x++)
                 if((top+y >= 0) && (left+x >= 0) && (top+y < dy) && (left+x < dx))
                     array[y + top][x + left] = obj.array[y][x];
                 else {
-                    System.out.println("invalid matrix range");
-                    System.exit(0);
+                	throw new MatrixException("invalid matrix range");
+//                    System.out.println("invalid matrix range");
+//                    System.exit(0);
                 }
     }
-    public Matrix add(Matrix obj) {
+    public Matrix add(Matrix obj) throws MatrixException{
         if((dx != obj.dx) && (dy != obj.dy)) {
-            System.out.println("matrix sizes mismatch");
-            System.exit(0);
+        	throw new MismatchedMatrixException("matrix sizes mismatch");
+//            System.out.println("matrix sizes mismatch");
+//            System.exit(0);
         }
         Matrix temp = new Matrix(dy, dx);
         for(int y = 0; y < obj.dy; y++)
@@ -97,4 +110,12 @@ public class Matrix {
         }
     }
     // end of Matrix
+}
+class MatrixException extends Exception {
+	public MatrixException() { super("Matrix Exception"); }
+	public MatrixException(String msg) { super(msg); }
+}
+class MismatchedMatrixException extends MatrixException {
+	public MismatchedMatrixException() { super("Mismatched Matrix Exception"); }
+	public MismatchedMatrixException(String msg) { super(msg); }
 }
