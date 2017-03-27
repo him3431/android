@@ -1,0 +1,224 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Random;
+
+public class TestMain_v4 {
+	private static int [][][][] setOfBlockArrays = {
+
+	{
+		{
+			{ 1,1,1,1 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		}, //수평블럭 0도 회전
+		{
+			{ 1,0,0,0 },
+			{ 1,0,0,0 },
+			{ 1,0,0,0 },
+			{ 1,0,0,0 }
+		}, //수평블럭 90도 회전
+		{
+			{ 1,1,1,1 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		}, //수평블럭 180도 회전
+		{
+			{ 1,0,0,0 },
+			{ 1,0,0,0 },
+			{ 1,0,0,0 },
+			{ 1,0,0,0 }
+		} //수평블럭 270도 회전
+	},
+	{
+		{
+			{0,1,0,0},
+			{1,1,1,0},
+			{0,0,0,0},
+			{0,0,0,0}
+		},
+		{
+			{0,1,0,0},
+			{1,1,0,0},
+			{0,1,0,0},
+			{0,0,0,0}
+		},
+		{
+			{1,1,1,0},
+			{0,1,0,0},
+			{0,0,0,0},
+			{0,0,0,0}
+		},
+		{
+			{1,0,0,0},
+			{1,1,0,0},
+			{1,0,0,0},
+			{0,0,0,0}
+		}
+	},
+	{
+		{
+			{ 1,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		}, 
+		{
+			{ 1,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		}, 
+		{
+			{ 1,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		}, 
+		{
+			{ 1,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		} 
+	},
+	{
+		{
+			{ 0,1,0,0 },
+			{ 0,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 1,0,0,0 },
+			{ 1,1,1,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 1,1,0,0 },
+			{ 1,0,0,0 },
+			{ 1,0,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 1,1,1,0 },
+			{ 0,0,1,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		}
+	},
+	{
+		{
+			{ 1,0,0,0 },
+			{ 1,0,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 1,1,1,0 },
+			{ 1,0,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 1,1,0,0 },
+			{ 0,1,0,0 },
+			{ 0,1,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 0,0,1,0 },
+			{ 1,1,1,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		}
+	},
+	{
+		{
+			{ 1,1,0,0 },
+			{ 0,1,1,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 0,1,0,0 },
+			{ 1,1,0,0 },
+			{ 1,0,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 1,1,0,0 },
+			{ 0,1,1,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 0,1,0,0 },
+			{ 1,1,0,0 },
+			{ 1,0,0,0 },
+			{ 0,0,0,0 }
+		}
+	},
+	{
+		{
+			{ 0,1,1,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 1,0,0,0 },
+			{ 1,1,0,0 },
+			{ 0,1,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 0,1,1,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		},
+		{
+			{ 1,0,0,0 },
+			{ 1,1,0,0 },
+			{ 0,1,0,0 },
+			{ 0,0,0,0 }
+		}
+	}
+	};
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static String line = null;
+	private static char getKey() throws IOException {
+		
+	}
+	private static int nKeys = 0;
+	private static char getKey() throws IOException {
+		
+	}
+	public static void main(String[] args) {
+		char key;
+		int idxType;
+		boolean newBlockNeeded;
+		Tetris.init(setOfBlockArrays);
+		Tetris.board = new Tetris(15, 10);
+		Random random = new Random.netInt(7);
+		board.accept('0', idxType);
+		board.printScreen(); System.out.println();
+		
+		while((key = getKey()) != 'q') {
+			newBlockNeeded = board.accept(key, idxType);
+			board.printScreen(); System.out.println();
+			if(newBlockNeeded) {
+				idxType = random.nextInt(7);
+				newBlockNeeded = board.accept('0', idxType);
+				board.priintScreen(); System.out.println();
+				if(newBlockNeeded) break;
+			}
+		}
+		System.out.println("Program terminated!");
+	}
+
+}

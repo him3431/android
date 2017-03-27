@@ -349,7 +349,22 @@ public class TestMain_v3 {
 		return ch;
 	}							// 키 입력을 받아오는 메소드 
 
-
+	public static Matrix deleteFullLines(Matrix screen, Matrix blk, int top, int dy) throws Exception {
+		Matrix line, tmp;
+		int cy, y, nDeleted = 0, nScanned = blk.get_dy();
+		if(top + blk.get_dy() - 1 >= dy)
+			nScanned -= (top + blk.get_dy() - dy);
+		for(y = nScanned - 1; y >= 0; y--) {
+			cy = top + y + nDeleted;
+			line = screen.clip(cy, 0, cy + 1, screen.get_dx());
+			if(line.sum() == screen.get_dx()) {
+				tmp = screen.clip(0, 0, cy, screen.get_dx());
+				screen.paste(tmp,  1,  0);
+				nDeleted++;					
+			}
+		}
+		return screen;
+	}
 	public static void main(String[] args) throws Exception {
 		boolean newBlockNeeded = false;
 		int top = 0; //left = 4;
@@ -377,10 +392,17 @@ public class TestMain_v3 {
 			case 'a': left--; break; //	move left
 			case 'd': left++; break; // move right
 			case 's': top++; break; // move down
-			case 'w': break; // rotate the block clockwise
-			case ' ': break; // drop the block
+			case 'w': idxBlockDegree = (idxBlockDegree + 1) % 4; break; // rotate the block clockwise
+			case ' ': while(!newBlockNeeded) { 
+				top++; 
+				tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
+				tempBlk = tempBlk.add(currBlk); 
+				if(tempBlk.anyGreaterThan(1)) {newBlockNeeded = true;}
+				} 
+				break;  // drop the block
 			default: System.out.println("unknown key!");
 			}
+			currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 			tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 			tempBlk = tempBlk.add(currBlk);
 			if(tempBlk.anyGreaterThan(1)) {
@@ -388,9 +410,10 @@ public class TestMain_v3 {
 				case 'a': left++; break; //	undo: move left
 				case 'd': left--; break; // undo: move right
 				case 's': top--; newBlockNeeded = true; break;  // undo: move down
-				case 'w': break; // undo: rotate the block counter = clockwise
-				case ' ': break; // undo: move up
+				case 'w': idxBlockDegree--; break; // undo: rotate the block counter = clockwise
+				case ' ': top--; break; // undo: move up
 				}
+				currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 				tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 				tempBlk = tempBlk.add(currBlk);
 			}
@@ -405,6 +428,7 @@ public class TestMain_v3 {
 				random = new Random();
 				idxBlockType = random.nextInt(nBlockTypes);
 				idxBlockDegree = 0;
+				iScreen = deleteFullLines(iScreen, currBlk, currBlk.get_dx(), currBlk.get_dy());
 				currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 				tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 				tempBlk = tempBlk.add(currBlk);
@@ -419,3 +443,5 @@ public class TestMain_v3 {
 		}
 	}
 }
+
+  
