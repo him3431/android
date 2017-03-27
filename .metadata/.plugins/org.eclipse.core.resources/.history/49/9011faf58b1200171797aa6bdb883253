@@ -309,15 +309,11 @@ public static void printScreen(Matrix screen) {
 			 */
 //		}
 		}
-		
-		//게임 초기화 코드 Tetris객체가 생성될 때 만드는 함수라는 것을 알 수 있다. top, left, currBlk등의 상태변수들을 관리해 준다.
 		int top = 0; //left = 4;
 		int left = iScreenDw + iScreenDx/2 - 2;
-		int[][] arrayScreen = createArrayScreen(iScreenDy, iScreenDx, iScreenDw);
+/*		int[][] arrayScreen = createArrayScreen(iScreenDy, iScreenDx, iScreenDw);
 		Matrix iScreen = new Matrix(arrayScreen);
-		
-		
-/*		nBlockTypes = setOfBlockArrays.length; //코드를 합친다.
+		nBlockTypes = setOfBlockArrays.length;
 		nBlockDegrees = setOfBlockArrays[0].length;
 		setOfBlockObjects = createSetOfBlocks(setOfBlockArrays);
 		int idxBlockDegree = 0;

@@ -223,7 +223,7 @@ public class Tetris {
 				array[y][x] = 1;
 		return array;
 	}
-	
+/*	
 public static void printScreen(Matrix screen) {
 		int dy = screen.get_dy();
 		int dx = screen.get_dx();
@@ -238,7 +238,7 @@ public static void printScreen(Matrix screen) {
 			System.out.println();
 		}
 	}
-/*	public static void printMatrix(Matrix blk) {
+	public static void printMatrix(Matrix blk) {
 		int dy = blk.get_dy();
 		int dx = blk.get_dx();
 		int array[][] = blk.get_array();
@@ -288,49 +288,28 @@ public static void printScreen(Matrix screen) {
 		}
 		return screen;
 	}
-	public static boolean accept(char key, int idxType) throws Exception {	// 새 블록이 필요한지 아닌지를 리턴해야 한다.
+	public static boolean accept(char key, int idxType) throws Exception {	
 		boolean newBlockNeeded = false;
-		if(key == '0') {	//'0' 의 키값이 들어오면 새로운 블록을 출력한다.
-//		if(newBlockNeeded) {				//newBlockNeeded가 참인경우에 if문을 통과하므로 이 부분은 필요없다. //바닥 충돌시 새 블록 출현// Main함수에서 구현하고 싶어한다.
-			iScreen = new Matrix(oScreen);
-			top = 0; left = iScreenDw + iScreenDx/2 - 2;
-			newBlockNeeded = false;
-//			currBlk = new Matrix(arrayBlk);
-			idxBlockDegree = 0;
-			currBlk = setOfBlockObjects[idxType][idxBlockDegree];	indexBlock을 이용한 블럭 선택 부
-			tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
-			tempBlk = tempBlk.add(currBlk);
-			oScreen = new Matrix(iScreen);
-			oScreen.paste(tempBlk, top, left);
-			printScreen(oScreen); System.out.println();
-			return newBlockNeeded;
-			/*
-			 * accept 함수가 해야 할 일은 블록 충돌여부와 새로운 블록 출력이다.
-			 */
-//		}
-		}
-		
-		//게임 초기화 코드 Tetris객체가 생성될 때 만드는 함수라는 것을 알 수 있다. top, left, currBlk등의 상태변수들을 관리해 준다.
 		int top = 0; //left = 4;
 		int left = iScreenDw + iScreenDx/2 - 2;
 		int[][] arrayScreen = createArrayScreen(iScreenDy, iScreenDx, iScreenDw);
 		Matrix iScreen = new Matrix(arrayScreen);
-		
-		
-/*		nBlockTypes = setOfBlockArrays.length; //코드를 합친다.
+		nBlockTypes = setOfBlockArrays.length;
 		nBlockDegrees = setOfBlockArrays[0].length;
 		setOfBlockObjects = createSetOfBlocks(setOfBlockArrays);
+		Random random = new Random();
+		int idxBlockType = random.nextInt(nBlockTypes);
 		int idxBlockDegree = 0;
-		Matrix currBlk = setOfBlockObjects[idxType][idxBlockDegree];	// idxType로 currBlk를 골라야 한다.
+		Matrix currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 //		Matrix currBlk = new Matrix(arrayBlk);
 		Matrix tempBlk = iScreen.clip(top, left, top + currBlk.get_dy(), left + currBlk.get_dx());
 		tempBlk = tempBlk.add(currBlk);
 		Matrix oScreen = new Matrix(iScreen);
 		oScreen.paste(tempBlk, top, left);
 		printScreen(oScreen); System.out.println();
-		게임을 시작할 때 새로운 블럭을 추가하는 로직  위의 if문과 합칠 수 있다.  
-*/
-//while 루프가 필요없다.		while((key = getKey()) != 'q') {	이 부분은 삭제하지 않는다. 혹시 틀렸을 때 살리기 위
+		
+//		boolean newBlockNeeded = false;
+		while((key = getKey()) != 'q') {
 			switch(key) {
 			case 'a': left--; break; //	move left
 			case 'd': left++; break; // move right
@@ -345,7 +324,7 @@ public static void printScreen(Matrix screen) {
 				break;  // drop the block
 			default: System.out.println("unknown key!");
 			}
-			currBlk = setOfBlockObjects[idxType][idxBlockDegree];
+			currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 			tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 			tempBlk = tempBlk.add(currBlk);
 			if(tempBlk.anyGreaterThan(1)) {
@@ -356,15 +335,32 @@ public static void printScreen(Matrix screen) {
 				case 'w': idxBlockDegree--; break; // undo: rotate the block counter = clockwise
 				case ' ': top--; break; // undo: move up
 				}
-				currBlk = setOfBlockObjects[idxType][idxBlockDegree];
+				currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 				tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 				tempBlk = tempBlk.add(currBlk);
 			}
 			oScreen = new Matrix(iScreen);
 			oScreen.paste(tempBlk, top, left);
 			printScreen(oScreen); System.out.println();
-			
-//		}
-			return newBlockNeeded;
+			if(newBlockNeeded) {								//바닥 충돌시 새 블록 출
+				iScreen = new Matrix(oScreen);
+				top = 0; left = iScreenDw + iScreenDx/2 - 2;
+				newBlockNeeded = false;
+//				currBlk = new Matrix(arrayBlk);
+				random = new Random();
+				idxBlockType = random.nextInt(nBlockTypes);
+				idxBlockDegree = 0;
+				currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
+				tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
+				tempBlk = tempBlk.add(currBlk);
+				if(tempBlk.anyGreaterThan(1)) {
+					System.out.println("Game Over!");	//새 블록 출현시 충돌 있으면 게임 종
+					System.exit(0);
+				}
+				oScreen = new Matrix(iScreen);
+				oScreen.paste(tempBlk, top, left);
+				printScreen(oScreen); System.out.println();
+			}
+		}
 	}
 }
