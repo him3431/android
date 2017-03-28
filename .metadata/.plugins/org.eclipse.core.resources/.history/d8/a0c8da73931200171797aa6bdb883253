@@ -224,7 +224,7 @@ public class Tetris {
 		return array;
 	}
 	
-	public static void printScreen(Matrix screen) {
+public static void printScreen(Matrix screen) {
 		int dy = screen.get_dy();
 		int dx = screen.get_dx();
 		int dw = iScreenDw;
@@ -288,52 +288,21 @@ public class Tetris {
 		}
 		return screen;
 	}
-
-	static Matrix[][] blkArray;
-	public static void init(int[][][][] setOfBlockArrays) throws MatrixException {	//init 함수는 hidden object를 초기화 한다. -> static으로 선
-		//4차원 배열이 28개라는 것을 알아내야 한다.
-		int nTypes = setOfBlockArrays.length;		//블록의 종류  
-		int nDegrees = setOfBlockArrays[0].length;	//블록의 회전수  
-		for(int t = 0; t < nTypes; t++)
-			for(int d = 0; d < nDegrees; d++)
-				blkArray[t][d] = new Matrix(setOfBlockArrays[t][d]);
-	}
-	
-	//게임 초기화 코드 Tetris객체가 생성될 때 만드는 함수라는 것을 알 수 있다. top, left, currBlk등의 상태변수들을 관리해 준다.
-		private int top ;
-		private int left;
-		private Matrix iScreen;
-		private Matrix oScreen;
-		private int blkType;
-		private int blkDegree;
-		private Matrix currBlk;	//2가지 속성정보 (타입, 각도)를 가지고 있다. 이 속성도 private변수로 가지고 있는 것이 좋다.(디버깅을 위해)
-	//위의 5줄은 모두 동적변수취급 이 변수들의 초기화는 최대한 생성자를 이용한다.
-	public Tetris(int cy, int cx) throws MatrixException{
-		top = 0; //left = 4;
-		left = iScreenDw + iScreenDx/2 - 2;
-		int[][] arrayScreen = createArrayScreen(iScreenDy, iScreenDx, iScreenDw); //클래스가 처음으로 생성될때 함수가 불려와서 만들어 진다. 생성자가 하는 역할  
-		iScreen = new Matrix(arrayScreen);
-		oScreen = new Matrix(arrayScreen);	// 초기화된 채로 있어야 accept에서 사용 가능하다. 
-	}
-
-	
-	public boolean accept(char key, int idxType) throws Exception {	// 새 블록이 필요한지 아닌지를 리턴해야 한다. 상태변수로 접근해야 하므로 static은 빼야 한다.
+	public static boolean accept(char key, int idxType) throws Exception {	// 새 블록이 필요한지 아닌지를 리턴해야 한다.
 		boolean newBlockNeeded = false;
-		Matrix tempBlk;
 		if(key == '0') {	//'0' 의 키값이 들어오면 새로운 블록을 출력한다.
 //		if(newBlockNeeded) {				//newBlockNeeded가 참인경우에 if문을 통과하므로 이 부분은 필요없다. //바닥 충돌시 새 블록 출현// Main함수에서 구현하고 싶어한다.
-			iScreen = new Matrix(oScreen);	//충돌 이후 새로운 블럭을 정할 때 필요 땅바닥에 쌓은 블럭을 포함한 배경화면을 초기화해 준다.
+			iScreen = new Matrix(oScreen);
+			top = 0; left = iScreenDw + iScreenDx/2 - 2;
 			newBlockNeeded = false;
-			blkType = idxType;
-			blkDegree = 0;
-			currBlk = blkArray[blkType][blkDegree];	//indexBlock을 이용한 블럭 선택 부분  
-			
+//			currBlk = new Matrix(arrayBlk);
+			idxBlockDegree = 0;
+			currBlk = setOfBlockObjects[idxType][idxBlockDegree];	indexBlock을 이용한 블럭 선택 부
 			tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 			tempBlk = tempBlk.add(currBlk);
-			// 충돌 테스
-			oScreen = new Matrix(iScreen);	//?? 중복인가??
+			oScreen = new Matrix(iScreen);
 			oScreen.paste(tempBlk, top, left);
-//			printScreen(oScreen); System.out.println();	//입출력은 메인함수가 모두 해 준다.
+			printScreen(oScreen); System.out.println();
 			return newBlockNeeded;
 			/*
 			 * accept 함수가 해야 할 일은 블록 충돌여부와 새로운 블록 출력이다.
@@ -341,7 +310,12 @@ public class Tetris {
 //		}
 		}
 		
-
+		//게임 초기화 코드 Tetris객체가 생성될 때 만드는 함수라는 것을 알 수 있다. top, left, currBlk등의 상태변수들을 관리해 준다.
+		int top = 0; //left = 4;
+		int left = iScreenDw + iScreenDx/2 - 2;
+		int[][] arrayScreen = createArrayScreen(iScreenDy, iScreenDx, iScreenDw);
+		Matrix iScreen = new Matrix(arrayScreen);
+		
 		
 /*		nBlockTypes = setOfBlockArrays.length; //코드를 합친다.
 		nBlockDegrees = setOfBlockArrays[0].length;

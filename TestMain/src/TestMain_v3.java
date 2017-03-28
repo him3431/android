@@ -428,7 +428,7 @@ public class TestMain_v3 {
 				random = new Random();
 				idxBlockType = random.nextInt(nBlockTypes);
 				idxBlockDegree = 0;
-				iScreen = deleteFullLines(iScreen, currBlk, currBlk.get_dx(), currBlk.get_dy());
+				iScreen = deleteFullLines(iScreen, currBlk, currBlk.get_dx(), currBlk.get_dy());////
 				currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 				tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 				tempBlk = tempBlk.add(currBlk);

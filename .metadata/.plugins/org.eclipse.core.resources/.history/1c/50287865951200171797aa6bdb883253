@@ -1,12 +1,91 @@
+//
+//public class TestMain_v3 {
+//	public static void printMatrix(Matrix blk) {	// static 메소드는 static으로 선언된 메소드만 불러 올 수 있다.
+//		int dy = blk.get_dy();
+//		int dx = blk.get_dx();
+//		int array[][] = blk.get_array();
+//		for (int y = 0; y < dy; y++) {
+//			for(int x = 0; x < dx; x++) {
+//				if(array[y][x] == 0) System.out.print("︎◻︎ ");
+//				else if(array[y][x] == 1) System.out.print("◼︎︎ ");
+//				else System.out.print("x ");
+//			}
+//			System.out.println();
+//		}
+//	}
+//	public static void main(String[] args) throws Exception{	// try & catch를 맨날 호출하기 귀찮으니까 모두 throws로 던질 것이다. 애매한곳만 만들어 두
+//		int [][] arrayScreen = {		// 배경화면으로 사용할 부
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+//				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+//		};
+//		int [][] arrayBlk = {
+//				{ 0, 1, 0 },
+//				{ 1, 1, 1 },
+//				{ 0, 0, 0 },
+//		};
+//		int top = 0, left = 4;
+//		Matrix iScreen = new Matrix(arrayScreen);
+//		printMatrix(iScreen); System.out.println();
+//		Matrix currBlk = new Matrix(arrayBlk);
+//		printMatrix(currBlk); System.out.println();
+//		Matrix tempBlk = iScreen.clip(top, left, top + currBlk.get_dy(), left + currBlk.get_dx());
+//		printMatrix(tempBlk); System.out.println();
+//		tempBlk = tempBlk.add(currBlk);
+//		printMatrix(tempBlk); System.out.println();
+//		Matrix oScreen = new Matrix(iScreen);
+//		oScreen.paste(tempBlk, top, left);
+//		printMatrix(oScreen); System.out.println();
+//	}
+//
+//}
 
-//getKey()가 없으므로 필요없다.
-/*
 import java.io.BufferedReader;
 import java.io.IOException;		// getKey() 메소드에서 요구하는 패키지
 import java.io.InputStreamReader;
 import java.util.Random;
-*/
-public class Tetris {
+
+public class TestMain_v3 {
+/*	static int [][] arrayScreen = {	// array[15+3][10+6]
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+	};
+	static int [][] arrayBlk = {
+			{ 0, 1, 0 },
+			{ 1, 1, 1 },
+			{ 0, 0, 0 },
+	};*/
+	
+	
 	private static int nBlockTypes = 7;
 	private static int nBlockDegrees = 4;
 	private static Matrix[][] setOfBlockObjects;
@@ -223,7 +302,6 @@ public class Tetris {
 				array[y][x] = 1;
 		return array;
 	}
-	
 	public static void printScreen(Matrix screen) {
 		int dy = screen.get_dy();
 		int dx = screen.get_dx();
@@ -238,7 +316,7 @@ public class Tetris {
 			System.out.println();
 		}
 	}
-/*	public static void printMatrix(Matrix blk) {
+	public static void printMatrix(Matrix blk) {
 		int dy = blk.get_dy();
 		int dx = blk.get_dx();
 		int array[][] = blk.get_array();
@@ -251,9 +329,8 @@ public class Tetris {
 			System.out.println();
 		}
 	}
-	*/
-	////////키를 입력받는 부분은 TestMain에만 존재한다 사용자의 입력에 따라 값이 변하는 부분이므로 Tetris클래스에 있으면 안된다.
-/*	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private static String line = null;
 	private static int nKeys = 0;
 	private static char getKey() throws IOException {
@@ -271,7 +348,7 @@ public class Tetris {
 		nKeys--;
 		return ch;
 	}							// 키 입력을 받아오는 메소드 
-*/	
+
 	public static Matrix deleteFullLines(Matrix screen, Matrix blk, int top, int dy) throws Exception {
 		Matrix line, tmp;
 		int cy, y, nDeleted = 0, nScanned = blk.get_dy();
@@ -279,84 +356,38 @@ public class Tetris {
 			nScanned -= (top + blk.get_dy() - dy);
 		for(y = nScanned - 1; y >= 0; y--) {
 			cy = top + y + nDeleted;
-			line = screen.clip(cy,  0,  cy+1,  screen.get_dx());
+			line = screen.clip(cy, 0, cy + 1, screen.get_dx());
 			if(line.sum() == screen.get_dx()) {
-				tmp = screen.clip(0,  0,  cy,  screen.get_dx());
+				tmp = screen.clip(0, 0, cy, screen.get_dx());
 				screen.paste(tmp,  1,  0);
 				nDeleted++;					
 			}
 		}
 		return screen;
 	}
-
-	static Matrix[][] blkArray;
-	public static void init(int[][][][] setOfBlockArrays) throws MatrixException {	//init 함수는 hidden object를 초기화 한다. -> static으로 선
-		//4차원 배열이 28개라는 것을 알아내야 한다.
-		int nTypes = setOfBlockArrays.length;		//블록의 종류  
-		int nDegrees = setOfBlockArrays[0].length;	//블록의 회전수  
-		for(int t = 0; t < nTypes; t++)
-			for(int d = 0; d < nDegrees; d++)
-				blkArray[t][d] = new Matrix(setOfBlockArrays[t][d]);
-	}
-	
-	//게임 초기화 코드 Tetris객체가 생성될 때 만드는 함수라는 것을 알 수 있다. top, left, currBlk등의 상태변수들을 관리해 준다.
-		private int top ;
-		private int left;
-		private Matrix iScreen;
-		private Matrix oScreen;
-		private int blkType;
-		private int blkDegree;
-		private Matrix currBlk;	//2가지 속성정보 (타입, 각도)를 가지고 있다. 이 속성도 private변수로 가지고 있는 것이 좋다.(디버깅을 위해)
-	//위의 5줄은 모두 동적변수취급 이 변수들의 초기화는 최대한 생성자를 이용한다.
-	public Tetris(int cy, int cx) throws MatrixException{
-		top = 0; //left = 4;
-		left = iScreenDw + iScreenDx/2 - 2;
-		int[][] arrayScreen = createArrayScreen(iScreenDy, iScreenDx, iScreenDw); //클래스가 처음으로 생성될때 함수가 불려와서 만들어 진다. 생성자가 하는 역할  
-		iScreen = new Matrix(arrayScreen);
-		oScreen = new Matrix(arrayScreen);	// 초기화된 채로 있어야 accept에서 사용 가능하다. 
-	}
-
-	
-	public boolean accept(char key, int idxType) throws Exception {	// 새 블록이 필요한지 아닌지를 리턴해야 한다. 상태변수로 접근해야 하므로 static은 빼야 한다.
+	public static void main(String[] args) throws Exception {
 		boolean newBlockNeeded = false;
-		Matrix tempBlk;
-		if(key == '0') {	//'0' 의 키값이 들어오면 새로운 블록을 출력한다.
-//		if(newBlockNeeded) {				//newBlockNeeded가 참인경우에 if문을 통과하므로 이 부분은 필요없다. //바닥 충돌시 새 블록 출현// Main함수에서 구현하고 싶어한다.
-			iScreen = new Matrix(oScreen);	//충돌 이후 새로운 블럭을 정할 때 필요 땅바닥에 쌓은 블럭을 포함한 배경화면을 초기화해 준다.
-			newBlockNeeded = false;
-			blkType = idxType;
-			blkDegree = 0;
-			currBlk = blkArray[blkType][blkDegree];	//indexBlock을 이용한 블럭 선택 부분  
-			
-			tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
-			tempBlk = tempBlk.add(currBlk);
-			// 충돌 테스
-			oScreen = new Matrix(iScreen);	//?? 중복인가??
-			oScreen.paste(tempBlk, top, left);
-//			printScreen(oScreen); System.out.println();	//입출력은 메인함수가 모두 해 준다.
-			return newBlockNeeded;
-			/*
-			 * accept 함수가 해야 할 일은 블록 충돌여부와 새로운 블록 출력이다.
-			 */
-//		}
-		}
-		
-
-		
-/*		nBlockTypes = setOfBlockArrays.length; //코드를 합친다.
+		int top = 0; //left = 4;
+		int left = iScreenDw + iScreenDx/2 - 2;
+		int[][] arrayScreen = createArrayScreen(iScreenDy, iScreenDx, iScreenDw);
+		char key;
+		Matrix iScreen = new Matrix(arrayScreen);
+		nBlockTypes = setOfBlockArrays.length;
 		nBlockDegrees = setOfBlockArrays[0].length;
 		setOfBlockObjects = createSetOfBlocks(setOfBlockArrays);
+		Random random = new Random();
+		int idxBlockType = random.nextInt(nBlockTypes);
 		int idxBlockDegree = 0;
-		Matrix currBlk = setOfBlockObjects[idxType][idxBlockDegree];	// idxType로 currBlk를 골라야 한다.
+		Matrix currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 //		Matrix currBlk = new Matrix(arrayBlk);
 		Matrix tempBlk = iScreen.clip(top, left, top + currBlk.get_dy(), left + currBlk.get_dx());
 		tempBlk = tempBlk.add(currBlk);
 		Matrix oScreen = new Matrix(iScreen);
 		oScreen.paste(tempBlk, top, left);
 		printScreen(oScreen); System.out.println();
-		게임을 시작할 때 새로운 블럭을 추가하는 로직  위의 if문과 합칠 수 있다.  
-*/
-//while 루프가 필요없다.		while((key = getKey()) != 'q') {	이 부분은 삭제하지 않는다. 혹시 틀렸을 때 살리기 위
+		
+//		boolean newBlockNeeded = false;
+		while((key = getKey()) != 'q') {
 			switch(key) {
 			case 'a': left--; break; //	move left
 			case 'd': left++; break; // move right
@@ -371,7 +402,7 @@ public class Tetris {
 				break;  // drop the block
 			default: System.out.println("unknown key!");
 			}
-			currBlk = setOfBlockObjects[idxType][idxBlockDegree];
+			currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 			tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 			tempBlk = tempBlk.add(currBlk);
 			if(tempBlk.anyGreaterThan(1)) {
@@ -382,15 +413,35 @@ public class Tetris {
 				case 'w': idxBlockDegree--; break; // undo: rotate the block counter = clockwise
 				case ' ': top--; break; // undo: move up
 				}
-				currBlk = setOfBlockObjects[idxType][idxBlockDegree];
+				currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
 				tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 				tempBlk = tempBlk.add(currBlk);
 			}
 			oScreen = new Matrix(iScreen);
 			oScreen.paste(tempBlk, top, left);
 			printScreen(oScreen); System.out.println();
-			
-//		}
-			return newBlockNeeded;
+			if(newBlockNeeded) {								//바닥 충돌시 새 블록 출
+				iScreen = new Matrix(oScreen);
+				top = 0; left = iScreenDw + iScreenDx/2 - 2;
+				newBlockNeeded = false;
+//				currBlk = new Matrix(arrayBlk);
+				random = new Random();
+				idxBlockType = random.nextInt(nBlockTypes);
+				idxBlockDegree = 0;
+				iScreen = deleteFullLines(iScreen, currBlk, currBlk.get_dx(), currBlk.get_dy());
+				currBlk = setOfBlockObjects[idxBlockType][idxBlockDegree];
+				tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
+				tempBlk = tempBlk.add(currBlk);
+				if(tempBlk.anyGreaterThan(1)) {
+					System.out.println("Game Over!");	//새 블록 출현시 충돌 있으면 게임 종
+					System.exit(0);
+				}
+				oScreen = new Matrix(iScreen);
+				oScreen.paste(tempBlk, top, left);
+				printScreen(oScreen); System.out.println();
+			}
+		}
 	}
 }
+
+  

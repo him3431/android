@@ -34,86 +34,106 @@ public class TestMain_v4 {
 	},
 	{
 		{
-			{0,1,0},
-			{1,1,1},
-			{0,0,0}
+			{0,1,0,0},
+			{1,1,1,0},
+			{0,0,0,0},
+			{0,0,0,0}
 		},
 		{
-			{0,1,0},
-			{1,1,0},
-			{0,1,0}
+			{0,1,0,0},
+			{1,1,0,0},
+			{0,1,0,0},
+			{0,0,0,0}
 		},
 		{
-			{1,1,1},
-			{0,1,0},
-			{0,0,0}
+			{1,1,1,0},
+			{0,1,0,0},
+			{0,0,0,0},
+			{0,0,0,0}
 		},
 		{
-			{1,0,0},
-			{1,1,0},
-			{1,0,0}
+			{1,0,0,0},
+			{1,1,0,0},
+			{1,0,0,0},
+			{0,0,0,0}
 		}
 	},
 	{
 		{
-			{ 1,1 },
-			{ 1,1 }
+			{ 1,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
 		}, 
 		{
-			{ 1,1 },
-			{ 1,1 }
+			{ 1,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
 		}, 
 		{
-			{ 1,1 },
-			{ 1,1 }
+			{ 1,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
 		}, 
 		{
-			{ 1,1 },
-			{ 1,1 }
+			{ 1,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
 		} 
 	},
 	{
 		{
-			{ 0,1,0 },
-			{ 0,1,0 },
-			{ 1,1,0 }
+			{ 0,1,0,0 },
+			{ 0,1,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 }
 		},
 		{
-			{ 1,0,0 },
-			{ 1,1,1 },
-			{ 0,0,0 }
+			{ 1,0,0,0 },
+			{ 1,1,1,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
 		},
 		{
-			{ 1,1,0 },
-			{ 1,0,0 },
-			{ 1,0,0 }
+			{ 1,1,0,0 },
+			{ 1,0,0,0 },
+			{ 1,0,0,0 },
+			{ 0,0,0,0 }
 		},
 		{
-			{ 1,1,1 },
-			{ 0,0,1 },
-			{ 0,0,0 }
+			{ 1,1,1,0 },
+			{ 0,0,1,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
 		}
 	},
 	{
 		{
-			{ 1,0,0 },
-			{ 1,0,0 },
-			{ 1,1,0 }
+			{ 1,0,0,0 },
+			{ 1,0,0,0 },
+			{ 1,1,0,0 },
+			{ 0,0,0,0 }
 		},
 		{
-			{ 1,1,1 },
-			{ 1,0,0 },
-			{ 0,0,0 }
+			{ 1,1,1,0 },
+			{ 1,0,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
 		},
 		{
-			{ 1,1,0 },
-			{ 0,1,0 },
-			{ 0,1,0 }
+			{ 1,1,0,0 },
+			{ 0,1,0,0 },
+			{ 0,1,0,0 },
+			{ 0,0,0,0 }
 		},
 		{
-			{ 0,0,1 },
-			{ 1,1,1 },
-			{ 0,0,0 }
+			{ 0,0,1,0 },
+			{ 1,1,1,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
 		}
 	},
 	{
@@ -191,10 +211,9 @@ public class TestMain_v4 {
 		char key;
 		int idxType;
 		boolean newBlockNeeded;
-		Tetris.init(setOfBlockArrays);		//hidden object를 초기화하는 것  
-		Tetris board = new Tetris(15, 10);
-		Random random = new Random();
-		idxType = random.nextInt(7);
+		Tetris.init(setOfBlockArrays);
+		Tetris.board = new Tetris(15, 10);
+		Random random = new Random.netInt(7);
 		board.accept('0', idxType);
 		board.printScreen(); System.out.println();
 		
@@ -203,9 +222,9 @@ public class TestMain_v4 {
 			board.printScreen(); System.out.println();
 			if(newBlockNeeded) {
 				idxType = random.nextInt(7);
-				newBlockNeeded = board.accept('0', idxType); // accept함수가 2번째 블렸을 때는 새로 정한 블럭을 배경에 추가하는 작업이 필요해진다.
-				board.printScreen(); System.out.println();
-				if(newBlockNeeded) break;	//Game Over!
+				newBlockNeeded = board.accept('0', idxType);
+				board.priintScreen(); System.out.println();
+				if(newBlockNeeded) break;
 			}
 		}
 		System.out.println("Program terminated!");

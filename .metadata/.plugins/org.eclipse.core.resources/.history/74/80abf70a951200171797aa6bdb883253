@@ -313,27 +313,25 @@ public class Tetris {
 		left = iScreenDw + iScreenDx/2 - 2;
 		int[][] arrayScreen = createArrayScreen(iScreenDy, iScreenDx, iScreenDw); //클래스가 처음으로 생성될때 함수가 불려와서 만들어 진다. 생성자가 하는 역할  
 		iScreen = new Matrix(arrayScreen);
-		oScreen = new Matrix(arrayScreen);	// 초기화된 채로 있어야 accept에서 사용 가능하다. 
+//		oScreen = new Matrix(arrayScreen);
 	}
 
 	
-	public boolean accept(char key, int idxType) throws Exception {	// 새 블록이 필요한지 아닌지를 리턴해야 한다. 상태변수로 접근해야 하므로 static은 빼야 한다.
+	public static boolean accept(char key, int idxType) throws Exception {	// 새 블록이 필요한지 아닌지를 리턴해야 한다.
 		boolean newBlockNeeded = false;
-		Matrix tempBlk;
 		if(key == '0') {	//'0' 의 키값이 들어오면 새로운 블록을 출력한다.
 //		if(newBlockNeeded) {				//newBlockNeeded가 참인경우에 if문을 통과하므로 이 부분은 필요없다. //바닥 충돌시 새 블록 출현// Main함수에서 구현하고 싶어한다.
-			iScreen = new Matrix(oScreen);	//충돌 이후 새로운 블럭을 정할 때 필요 땅바닥에 쌓은 블럭을 포함한 배경화면을 초기화해 준다.
+			iScreen = new Matrix(oScreen);
+			top = 0; left = iScreenDw + iScreenDx/2 - 2;
 			newBlockNeeded = false;
-			blkType = idxType;
-			blkDegree = 0;
-			currBlk = blkArray[blkType][blkDegree];	//indexBlock을 이용한 블럭 선택 부분  
-			
+//			currBlk = new Matrix(arrayBlk);
+			idxBlockDegree = 0;
+			currBlk = setOfBlockObjects[idxType][idxBlockDegree];	indexBlock을 이용한 블럭 선택 부
 			tempBlk = iScreen.clip(top, left, top+currBlk.get_dy(), left+currBlk.get_dx());
 			tempBlk = tempBlk.add(currBlk);
-			// 충돌 테스
-			oScreen = new Matrix(iScreen);	//?? 중복인가??
+			oScreen = new Matrix(iScreen);
 			oScreen.paste(tempBlk, top, left);
-//			printScreen(oScreen); System.out.println();	//입출력은 메인함수가 모두 해 준다.
+			printScreen(oScreen); System.out.println();
 			return newBlockNeeded;
 			/*
 			 * accept 함수가 해야 할 일은 블록 충돌여부와 새로운 블록 출력이다.
