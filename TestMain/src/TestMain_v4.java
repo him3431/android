@@ -118,54 +118,46 @@ public class TestMain_v4 {
 	},
 	{
 		{
-			{ 1,1,0,0 },
-			{ 0,1,1,0 },
-			{ 0,0,0,0 },
-			{ 0,0,0,0 }
+			{ 1,1,0 },
+			{ 0,1,1 },
+			{ 0,0,0 }
 		},
 		{
-			{ 0,1,0,0 },
-			{ 1,1,0,0 },
-			{ 1,0,0,0 },
-			{ 0,0,0,0 }
+			{ 0,1,0 },
+			{ 1,1,0 },
+			{ 1,0,0 }
 		},
 		{
-			{ 1,1,0,0 },
-			{ 0,1,1,0 },
-			{ 0,0,0,0 },
-			{ 0,0,0,0 }
+			{ 1,1,0 },
+			{ 0,1,1 },
+			{ 0,0,0 }
 		},
 		{
-			{ 0,1,0,0 },
-			{ 1,1,0,0 },
-			{ 1,0,0,0 },
-			{ 0,0,0,0 }
+			{ 0,1,0 },
+			{ 1,1,0 },
+			{ 1,0,0 }
 		}
 	},
 	{
 		{
-			{ 0,1,1,0 },
-			{ 1,1,0,0 },
-			{ 0,0,0,0 },
-			{ 0,0,0,0 }
+			{ 0,1,1 },
+			{ 1,1,0 },
+			{ 0,0,0 }
 		},
 		{
-			{ 1,0,0,0 },
-			{ 1,1,0,0 },
-			{ 0,1,0,0 },
-			{ 0,0,0,0 }
+			{ 1,0,0 },
+			{ 1,1,0 },
+			{ 0,1,0 }
 		},
 		{
-			{ 0,1,1,0 },
-			{ 1,1,0,0 },
-			{ 0,0,0,0 },
-			{ 0,0,0,0 }
+			{ 0,1,1 },
+			{ 1,1,0 },
+			{ 0,0,0 }
 		},
 		{
-			{ 1,0,0,0 },
-			{ 1,1,0,0 },
-			{ 0,1,0,0 },
-			{ 0,0,0,0 }
+			{ 1,0,0 },
+			{ 1,1,0 },
+			{ 0,1,0 }
 		}
 	}
 	};
@@ -187,25 +179,24 @@ public class TestMain_v4 {
 		nKeys--;
 		return ch;
 	}							// 키 입력을 받아오는 메소드 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		char key;
-		int idxType;
-		boolean newBlockNeeded;
+		TetrisState state;
 		Tetris.init(setOfBlockArrays);		//hidden object를 초기화하는 것  
 		Tetris board = new Tetris(15, 10);
 		Random random = new Random();
-		idxType = random.nextInt(7);
-		board.accept('0', idxType);
+		key = (char) ('0' + random.nextInt(7));
+		board.accept(key);
 		board.printScreen(); System.out.println();
 		
 		while((key = getKey()) != 'q') {		//키를 받고 게임엔진을 부르는 방식으로 tetris의 while함수를 빼줘야 한다.
-			newBlockNeeded = board.accept(key, idxType);	//accept는 하나의 키만 가지고 게임엔진이 판단하면 된다.
+			state = board.accept(key);	//accept는 하나의 키만 가지고 게임엔진이 판단하면 된다.
 			board.printScreen(); System.out.println();
-			if(newBlockNeeded) {
-				idxType = random.nextInt(7);
-				newBlockNeeded = board.accept('0', idxType); // accept함수가 2번째 블렸을 때는 새로 정한 블럭을 배경에 추가하는 작업이 필요해진다.
+			if(state == TetrisState.NewBlock) {
+				key = (char)('0' + random.nextInt(7));
+				state = board.accept(key); // accept함수가 2번째 블렸을 때는 새로 정한 블럭을 배경에 추가하는 작업이 필요해진다.
 				board.printScreen(); System.out.println();
-				if(newBlockNeeded) break;	//Game Over!
+				if(state == TetrisState.Finished) break;	//Game Over!
 			}
 		}
 		System.out.println("Program terminated!");
